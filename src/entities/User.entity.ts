@@ -1,4 +1,3 @@
-import { Exclude } from "class-transformer";
 import Vehicle from "./Vehicles.entity";
 import {
   Entity,
@@ -7,7 +6,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  BeforeInsert,
 } from "typeorm";
+import { hashSync } from "bcrypt";
 
 @Entity("users")
 class User {
@@ -23,8 +24,8 @@ class User {
   @Column({ length: 24, nullable: false, unique: true })
   cpf: string;
 
-  @Column()
-  number: number;
+  @Column({ length: 11, nullable: false, unique: true })
+  number: string;
 
   @Column({ length: 14, nullable: false })
   dateBirth: string;
@@ -35,8 +36,7 @@ class User {
   @Column({ default: true })
   isAdvertiser: boolean;
 
-  @Column({ select: false })
-  @Exclude()
+  @Column()
   password: string;
 
   @Column({ default: true })
@@ -50,6 +50,12 @@ class User {
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.user)
   contacts: Vehicle[];
+
+  @BeforeInsert()
+  hashPassword() {
+    const hash = hashSync(this.password, 10);
+    this.password = hash;
+  }
 }
 
 export default User;

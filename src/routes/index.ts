@@ -1,19 +1,23 @@
 import { Router } from "express";
-
-// import { UserController } from "../controllers/User.controller";
 import { DataMiddleware } from "../middlewares/Data.middleware";
-// import { LoginSchema } from "../schemas/Login.schema";
-// import { profileRoutes } from "./profile.routes";
-// import { userRoutes } from "./user.routes";
+import { UserController } from "../controllers/User.controllers";
+import { LoginSchemas } from "../schemas/LoginSchemas";
+import { LoginControllers } from "../controllers/Login.controllers";
+import { UserSchemas } from "../schemas/UserSchemas";
 
-//const dataMiddleware = new DataMiddleware();
+const dataMiddleware = new DataMiddleware();
+const userController = new UserController();
+const loginController = new LoginControllers();
 
 export const routes = Router();
 
-routes.use("/users");
-// routes.use(
-//   "/login",
-//   dataMiddleware.ensureData(loginSchema.login),
-//   new UserController().login
-// );
-//routes.use("/profile", profileRoutes);
+routes.use(
+  "/users",
+  dataMiddleware.ensureData(UserSchemas.createUserRequestSchema),
+  userController.create
+);
+routes.use(
+  "/login",
+  dataMiddleware.ensureData(LoginSchemas.loginRequestSchema),
+  loginController.login
+);
