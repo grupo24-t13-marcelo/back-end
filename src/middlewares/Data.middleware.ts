@@ -7,7 +7,8 @@ export class DataMiddleware {
     async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
         const validate = await schema.validate(req.body, {
-          abortEarly: true
+          abortEarly: false,
+          stripUnknown: true,
         });
 
         req.validate = validate;
