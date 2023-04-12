@@ -2,6 +2,8 @@ import * as yup from "yup";
 import {
   ICreateUserRequest,
   ICreateUserResponse,
+  IUpdateUserRequest,
+  IUpdateUserResponse,
 } from "../interfaces/user.interfaces";
 import { regexOnlyNumber, regexRemoveSpecialCharacters } from "./utils/regexs";
 
@@ -51,4 +53,35 @@ export class UserSchemas {
       name: yup.string().required(),
       id: yup.string().required(),
     });
+
+  static updateUserRequestSchema: yup.SchemaOf<IUpdateUserRequest> = yup
+    .object()
+    .shape({
+      name: yup.string().min(3).max(26).trim(),
+      email: yup.string().email().min(6).max(72).trim(),
+      cpf: yup
+        .string()
+        .length(11)
+        .trim()
+        .transform((value: string) =>
+          value.replace(regexRemoveSpecialCharacters, "")
+        ),
+      number: yup
+        .string()
+        .length(11)
+        .trim()
+        .transform((value: string) => value.replace(regexOnlyNumber, "")),
+      dateBirth: yup
+        .string()
+        .length(6)
+        .trim()
+        .transform((value: string) => value.replace(regexOnlyNumber, "")),
+      description: yup.string().min(1).max(900).trim(),
+      password: yup.string().min(6).max(72).trim(),
+      isAdvertiser: yup.boolean(),
+    });
+
+  static updateUserResponseSchema: yup.SchemaOf<IUpdateUserResponse> = yup
+    .object()
+    .concat(this.createUserResponseSchema);
 }

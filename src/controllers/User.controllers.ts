@@ -11,4 +11,9 @@ export class UserController {
     await new UserServices().delete(req.user.id);
     return res.status(204).send();
   }
+
+  async update(req: Request, res: Response) {
+    const userUpdated = await new UserServices().update(req.body, req.user.id);
+    return res.status(200).json(userUpdated);
+  }
 }

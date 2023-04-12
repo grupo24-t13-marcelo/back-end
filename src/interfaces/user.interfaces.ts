@@ -22,3 +22,7 @@ export interface ICreateUserResponse {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export interface IUpdateUserRequest extends Partial<ICreateUserRequest> {}
+
+export interface IUpdateUserResponse extends ICreateUserResponse {}

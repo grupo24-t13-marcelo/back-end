@@ -21,6 +21,13 @@ routes.post(
 
 routes.delete("/users", authMiddleware.verify, userController.delete);
 
+routes.patch(
+  "/users",
+  authMiddleware.verify,
+  dataMiddleware.ensureData(UserSchemas.updateUserRequestSchema),
+  userController.update
+);
+
 routes.post(
   "/login",
   dataMiddleware.ensureData(LoginSchemas.loginRequestSchema),
