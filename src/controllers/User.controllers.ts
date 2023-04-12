@@ -6,4 +6,9 @@ export class UserController {
     const newUser = await new UserServices().create(req.validate);
     return res.status(201).json(newUser);
   }
+
+  async delete(req: Request, res: Response) {
+    await new UserServices().delete(req.user.id);
+    return res.status(204).send();
+  }
 }

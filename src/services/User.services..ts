@@ -34,4 +34,9 @@ export class UserServices {
       stripUnknown: true,
     });
   }
+
+  async delete(userId: string) {
+    await userRepository.delete({ id: userId });
+    return;
+  }
 }
