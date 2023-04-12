@@ -4,19 +4,31 @@ import { UserController } from "../controllers/User.controllers";
 import { LoginSchemas } from "../schemas/LoginSchemas";
 import { LoginControllers } from "../controllers/Login.controllers";
 import { UserSchemas } from "../schemas/UserSchemas";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
 
 const dataMiddleware = new DataMiddleware();
 const userController = new UserController();
 const loginController = new LoginControllers();
+const authMiddleware = new AuthMiddleware();
 
 export const routes = Router();
 
-routes.use(
+routes.post(
   "/users",
   dataMiddleware.ensureData(UserSchemas.createUserRequestSchema),
   userController.create
 );
-routes.use(
+
+routes.delete("/users", authMiddleware.verify, userController.delete);
+
+routes.patch(
+  "/users",
+  authMiddleware.verify,
+  dataMiddleware.ensureData(UserSchemas.updateUserRequestSchema),
+  userController.update
+);
+
+routes.post(
   "/login",
   dataMiddleware.ensureData(LoginSchemas.loginRequestSchema),
   loginController.login
