@@ -1,13 +1,16 @@
 import { Router } from "express";
 import { DataMiddleware } from "../middlewares/Data.middleware";
 import { UserController } from "../controllers/User.controllers";
+import { VehicleController } from "../controllers/Vehicle.controllers";
 import { LoginSchemas } from "../schemas/LoginSchemas";
 import { LoginControllers } from "../controllers/Login.controllers";
 import { UserSchemas } from "../schemas/UserSchemas";
+import { VehicleSchemas } from "../schemas/Vehicles.Schemas";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
 
 const dataMiddleware = new DataMiddleware();
 const userController = new UserController();
+const vehicleController = new VehicleController();
 const loginController = new LoginControllers();
 const authMiddleware = new AuthMiddleware();
 
@@ -32,4 +35,29 @@ routes.post(
   "/login",
   dataMiddleware.ensureData(LoginSchemas.loginRequestSchema),
   loginController.login
+);
+
+routes.post(
+  "/vehicles",
+  authMiddleware.verify,
+  authMiddleware.isAdvertiser,
+  dataMiddleware.ensureData(VehicleSchemas.createVehicleRequestSchemas),
+  vehicleController.create
+);
+
+routes.get("/vehicles", authMiddleware.verify, vehicleController.get);
+
+routes.delete(
+  "/vehicles/:id",
+  authMiddleware.verify,
+  authMiddleware.isAdvertiser,
+  vehicleController.delete
+);
+
+routes.patch(
+  "/vehicles/:id",
+  authMiddleware.verify,
+  authMiddleware.isAdvertiser,
+  dataMiddleware.ensureData(VehicleSchemas.updateVehicleRequestSchemas),
+  vehicleController.update
 );

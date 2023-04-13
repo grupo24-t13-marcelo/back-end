@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as jwt from "jsonwebtoken";
 import { UnauthorizedError } from "../helpers/Errors.helper";
+import { userRepository } from "../repositories";
 
 export class AuthMiddleware {
   verify(req: Request, res: Response, next: NextFunction) {
@@ -23,5 +24,18 @@ export class AuthMiddleware {
 
       return next();
     });
+  }
+
+  async isAdvertiser(req: Request, res: Response, next: NextFunction) {
+    const logedId = req.user.id;
+    const findUser = await userRepository.findOne({
+      where: { id: logedId },
+    });
+
+    if (findUser?.isAdvertiser === false) {
+      throw new UnauthorizedError("Restricted for advertisers");
+    }
+
+    return next();
   }
 }
