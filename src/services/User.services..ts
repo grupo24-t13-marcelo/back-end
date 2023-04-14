@@ -84,4 +84,9 @@ export class UserServices {
       stripUnknown: true,
     });
   }
+
+  async get() {
+    const users = await userRepository.find();
+    return users;
+  }
 }

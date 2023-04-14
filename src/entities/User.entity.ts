@@ -1,4 +1,5 @@
 import Vehicle from "./Vehicles.entity";
+import { Exclude } from "class-transformer";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -37,6 +38,7 @@ class User {
   isAdvertiser: boolean;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({ default: true })

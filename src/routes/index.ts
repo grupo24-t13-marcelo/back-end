@@ -16,6 +16,8 @@ const authMiddleware = new AuthMiddleware();
 
 export const routes = Router();
 
+routes.get("/users", authMiddleware.verify, userController.get);
+
 routes.post(
   "/users",
   dataMiddleware.ensureData(UserSchemas.createUserRequestSchema),
