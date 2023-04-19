@@ -4,7 +4,7 @@ import {
   ICreateUserRequest,
   IUpdateUserRequest,
 } from "../interfaces/user.interfaces";
-import { userRepository } from "../repositories";
+import { addressRepository, userRepository } from "../repositories";
 import { UserSchemas } from "../schemas/UserSchemas";
 
 export class UserServices {
@@ -34,6 +34,13 @@ export class UserServices {
     let newUser = userRepository.create(dataUser);
     newUser = await userRepository.save(newUser);
 
+    let newAddress = addressRepository.create(dataUser.address);
+    newAddress = await addressRepository.save({
+      ...newAddress,
+      ownerid: newUser,
+    });
+
+    newUser.address = newAddress;
     return await UserSchemas.createUserResponseSchema.validate(newUser, {
       stripUnknown: true,
     });
