@@ -1,4 +1,6 @@
 import Vehicle from "./Vehicles.entity";
+import Address from "./Address.entity";
+import Comment from "./Comments.entity";
 import { Exclude } from "class-transformer";
 import {
   Entity,
@@ -8,6 +10,7 @@ import {
   UpdateDateColumn,
   OneToMany,
   BeforeInsert,
+  OneToOne,
 } from "typeorm";
 import { hashSync } from "bcrypt";
 
@@ -52,6 +55,12 @@ class User {
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.user)
   vehicles: Vehicle[];
+
+  @OneToMany(() => Comment, (comment) => comment.ownerid)
+  comments: Comment[];
+
+  @OneToOne(() => Address, (address) => address.ownerid)
+  address: Address;
 
   @BeforeInsert()
   hashPassword() {
