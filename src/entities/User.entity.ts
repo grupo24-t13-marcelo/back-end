@@ -51,7 +51,7 @@ class User {
   updatedAt: Date;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.user)
-  contacts: Vehicle[];
+  vehicles: Vehicle[];
 
   @BeforeInsert()
   hashPassword() {
