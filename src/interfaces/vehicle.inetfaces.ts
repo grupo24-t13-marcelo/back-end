@@ -1,5 +1,9 @@
 import { ICreateUserResponse } from "./user.interfaces";
 
+export interface ICreatePhotosRequest {
+  photourl: string[];
+}
+
 export interface ICreateVehicleRequest {
   title: string;
   brand: string;
@@ -12,6 +16,7 @@ export interface ICreateVehicleRequest {
   coverUrl: string;
   bellowFipe: boolean;
   fipe: string;
+  photos: ICreatePhotosRequest;
 }
 
 export interface ICreateVehicleResponse {
@@ -24,15 +29,16 @@ export interface ICreateVehicleResponse {
   mileage: number;
   price: number;
   description: string;
-  coverURL: string;
+  coverUrl: string;
   bellowFipe: boolean;
   fipe: string;
   isActive: boolean;
   updatedAt: Date;
   createdAt: Date;
-  user: ICreateUserResponse;
+  photos: string[];
 }
 
-export interface IUpdateVehicleRequest extends Partial<ICreateVehicleRequest> {}
+export interface IUpdateVehicleRequest
+  extends Partial<Omit<ICreateVehicleRequest, "photos">> {}
 
 export interface IUpdateVehicleResponse extends ICreateVehicleResponse {}
