@@ -36,11 +36,55 @@ export class UserSchemas {
       description: yup.string().min(1).max(900).trim().required(),
       password: yup.string().min(6).max(72).trim().required(),
       isAdvertiser: yup.boolean().required(),
+      address: yup.object().shape({
+        zip_code: yup
+          .string()
+          .length(8)
+          .trim()
+          .required()
+          .transform((value: string) => value.replace(regexOnlyNumber, "")),
+        state: yup
+          .string()
+          .length(2)
+          .trim()
+          .required()
+          .transform((value: string) =>
+            value.replace(regexRemoveSpecialCharacters, "")
+          ),
+        city: yup
+          .string()
+          .min(2)
+          .max(26)
+          .trim()
+          .required()
+          .transform((value: string) =>
+            value.replace(regexRemoveSpecialCharacters, "")
+          ),
+        street: yup.string().min(3).max(26).trim().required(),
+        number: yup
+          .string()
+          .min(1)
+          .max(11)
+          .trim()
+          .required()
+          .transform((value: string) => value.replace(regexOnlyNumber, "")),
+        complement: yup.string().min(3).max(206).trim().required(),
+      }),
     });
 
   static createUserResponseSchema: yup.SchemaOf<ICreateUserResponse> = yup
     .object()
     .shape({
+      address: yup.object().shape({
+        createdAt: yup.date().required(),
+        updatedAt: yup.date().required(),
+        complement: yup.string().trim().required(),
+        number: yup.string().trim().required(),
+        street: yup.string().trim().required(),
+        city: yup.string().trim().required(),
+        state: yup.string().trim().required(),
+        zip_code: yup.string().trim().required(),
+      }),
       createdAt: yup.date().required(),
       updatedAt: yup.date().required(),
       isActive: yup.boolean().required(),

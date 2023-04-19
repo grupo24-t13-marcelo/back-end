@@ -37,7 +37,7 @@ class Address {
   @CreateDateColumn()
   updatedAt: Date;
 
-  @OneToOne(() => User, (user) => user.id)
+  @OneToOne(() => User, (user) => user.id, { onDelete: "CASCADE" })
   @JoinColumn()
   ownerid: User;
 }
