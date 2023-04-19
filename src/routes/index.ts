@@ -67,3 +67,21 @@ routes.patch(
 );
 
 routes.get("/profile", authMiddleware.verify, profileController.get);
+
+routes.post("/comments", authMiddleware.verify);
+
+routes.get("/comments/:id", authMiddleware.verify);
+
+routes.patch("/comments/:id", authMiddleware.verify);
+
+routes.delete("/comments/:id", authMiddleware.verify);
+
+routes.post("/photos/:id", authMiddleware.verify, authMiddleware.verify);
+
+routes.patch("/photos/:id", authMiddleware.verify, authMiddleware.isAdvertiser);
+
+routes.delete(
+  "/photos/:id",
+  authMiddleware.verify,
+  authMiddleware.isAdvertiser
+);

@@ -44,7 +44,7 @@ class Vehicle {
   @Column({ nullable: false })
   coverUrl: string;
 
-  @Column({ default: true })
+  @Column({ nullable: false })
   bellowFipe: boolean;
 
   @Column({ nullable: false })
