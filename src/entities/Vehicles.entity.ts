@@ -6,8 +6,11 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import User from "./User.entity";
+import Photo from "./Photos.entity";
+import Comment from "./Comments.entity";
 
 @Entity("vehicles")
 class Vehicle {
@@ -55,6 +58,12 @@ class Vehicle {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @OneToMany(() => Photo, (photo) => photo.vehicle)
+  photos: Photo[];
+
+  @OneToMany(() => Comment, (comment) => comment.vehicleid)
+  comments: Comment[];
 
   @ManyToOne(() => User, (user) => user.id)
   @JoinColumn()

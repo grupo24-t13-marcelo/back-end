@@ -87,6 +87,8 @@ export class UserServices {
 
   async get() {
     const users = await userRepository.find();
-    return users;
+    return await UserSchemas.getUsersResponseSchema.validate(users, {
+      stripUnknown: true,
+    });
   }
 }

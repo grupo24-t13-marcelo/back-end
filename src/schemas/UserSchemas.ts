@@ -54,6 +54,9 @@ export class UserSchemas {
       id: yup.string().required(),
     });
 
+  static getUsersResponseSchema: yup.SchemaOf<ICreateUserResponse[]> =
+    yup.array(this.createUserResponseSchema);
+
   static updateUserRequestSchema: yup.SchemaOf<IUpdateUserRequest> = yup
     .object()
     .shape({

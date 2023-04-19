@@ -2,6 +2,7 @@ import { Router } from "express";
 import { DataMiddleware } from "../middlewares/Data.middleware";
 import { UserController } from "../controllers/User.controllers";
 import { VehicleController } from "../controllers/Vehicle.controllers";
+import { ProfileController } from "../controllers/Profile.controller";
 import { LoginSchemas } from "../schemas/LoginSchemas";
 import { LoginControllers } from "../controllers/Login.controllers";
 import { UserSchemas } from "../schemas/UserSchemas";
@@ -10,6 +11,7 @@ import { AuthMiddleware } from "../middlewares/auth.middleware";
 
 const dataMiddleware = new DataMiddleware();
 const userController = new UserController();
+const profileController = new ProfileController();
 const vehicleController = new VehicleController();
 const loginController = new LoginControllers();
 const authMiddleware = new AuthMiddleware();
@@ -63,3 +65,5 @@ routes.patch(
   dataMiddleware.ensureData(VehicleSchemas.updateVehicleRequestSchemas),
   vehicleController.update
 );
+
+routes.get("/profile", authMiddleware.verify, profileController.get);
