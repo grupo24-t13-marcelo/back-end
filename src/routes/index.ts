@@ -8,9 +8,12 @@ import { LoginControllers } from "../controllers/Login.controllers";
 import { UserSchemas } from "../schemas/UserSchemas";
 import { VehicleSchemas } from "../schemas/Vehicles.Schemas";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
+import { AddressSchemas } from "../schemas/AddressSchemas";
+import { AddressController } from "../controllers/Address.controller";
 
 const dataMiddleware = new DataMiddleware();
 const userController = new UserController();
+const addressController = new AddressController();
 const profileController = new ProfileController();
 const vehicleController = new VehicleController();
 const loginController = new LoginControllers();
@@ -33,6 +36,13 @@ routes.patch(
   authMiddleware.verify,
   dataMiddleware.ensureData(UserSchemas.updateUserRequestSchema),
   userController.update
+);
+
+routes.patch(
+  "/address",
+  authMiddleware.verify,
+  dataMiddleware.ensureData(AddressSchemas.updateAddressRequestSchema),
+  addressController.update
 );
 
 routes.post(
