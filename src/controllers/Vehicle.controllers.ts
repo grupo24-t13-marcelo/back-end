@@ -28,4 +28,9 @@ export class VehicleController {
     const vehicleGet = await new VehicleServices().get();
     return res.status(200).json(vehicleGet);
   }
+
+  async getById(req: Request, res: Response) {
+    const vehicle = await new VehicleServices().getVehicleById(req.params.id);
+    return res.status(200).json(vehicle);
+  }
 }

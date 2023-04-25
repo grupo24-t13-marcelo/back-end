@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   OneToOne,
   JoinColumn,
+  UpdateDateColumn,
 } from "typeorm";
 
 @Entity("addresses")
@@ -34,7 +35,7 @@ class Address {
   @CreateDateColumn()
   createdAt: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToOne(() => User, (user) => user.id, { onDelete: "CASCADE" })

@@ -7,6 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  UpdateDateColumn,
 } from "typeorm";
 import User from "./User.entity";
 import Photo from "./Photos.entity";
@@ -53,7 +54,7 @@ class Vehicle {
   @CreateDateColumn()
   createdAt: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @Column({ default: true })
