@@ -1,5 +1,9 @@
-import { NotFoundError } from "../helpers/Errors.helper";
-import { photoRepository, vehicleRepository } from "../repositories";
+import { NotFoundError, UnauthorizedError } from "../helpers/Errors.helper";
+import {
+  photoRepository,
+  vehicleRepository,
+  userRepository,
+} from "../repositories";
 import { IcreatePhoto } from "../interfaces/vehicle.inetfaces";
 import { PhotoSchemas } from "../schemas/PhotoSchemas";
 
@@ -28,7 +32,26 @@ export class PhotoService {
     );
   }
 
-  async update(data: IcreatePhoto, photoId: string) {
+  async update(data: IcreatePhoto, photoId: string, userId: string) {
+    let status = false;
+
+    const user = await userRepository.findOne({
+      where: { id: userId },
+      relations: { vehicles: { photos: true } },
+    });
+
+    user?.vehicles.forEach((elem) => {
+      elem.photos.forEach((elem) => {
+        if (elem.id === photoId) {
+          status = true;
+        }
+      });
+    });
+
+    if (status === false) {
+      throw new UnauthorizedError("You Only Can Update Your Photos");
+    }
+
     const findPhoto = await photoRepository.findOne({
       where: { id: photoId },
     });
@@ -43,7 +66,26 @@ export class PhotoService {
     return photoUpdateReturn;
   }
 
-  async delete(photoId: string) {
+  async delete(photoId: string, userId: string) {
+    let status = false;
+
+    const user = await userRepository.findOne({
+      where: { id: userId },
+      relations: { vehicles: { photos: true } },
+    });
+
+    user?.vehicles.forEach((elem) => {
+      elem.photos.forEach((elem) => {
+        if (elem.id === photoId) {
+          status = true;
+        }
+      });
+    });
+
+    if (status === false) {
+      throw new UnauthorizedError("You Only Can Delete Your Photos");
+    }
+
     const findPhoto = photoRepository.findOne({
       where: { id: photoId },
     });

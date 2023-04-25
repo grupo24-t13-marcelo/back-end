@@ -4,6 +4,7 @@ import {
   ICreateUserResponse,
   IUpdateUserRequest,
   IUpdateUserResponse,
+  IGetUserIdResponse,
 } from "../interfaces/user.interfaces";
 import { regexOnlyNumber, regexRemoveSpecialCharacters } from "./utils/regexs";
 
@@ -85,6 +86,41 @@ export class UserSchemas {
         state: yup.string().trim().required(),
         zip_code: yup.string().trim().required(),
       }),
+      createdAt: yup.date().required(),
+      updatedAt: yup.date().required(),
+      isActive: yup.boolean().required(),
+      isAdvertiser: yup.boolean().required(),
+      description: yup.string().required(),
+      dateBirth: yup.string().required(),
+      number: yup.string().required(),
+      cpf: yup.string().required(),
+      email: yup.string().required(),
+      name: yup.string().required(),
+      id: yup.string().required(),
+    });
+
+  static getUserIdSchema: yup.SchemaOf<IGetUserIdResponse> = yup
+    .object()
+    .shape({
+      vehicles: yup.array().of(
+        yup.object().shape({
+          id: yup.string().required(),
+          title: yup.string().trim().required(),
+          brand: yup.string().trim().required(),
+          model: yup.string().trim().required(),
+          year: yup.number().required(),
+          fuel: yup.string().trim().required(),
+          mileage: yup.number().required(),
+          price: yup.number().required(),
+          description: yup.string().trim().required(),
+          coverUrl: yup.string().trim().required(),
+          bellowFipe: yup.boolean().required(),
+          fipe: yup.string().trim().required(),
+          isActive: yup.boolean().required(),
+          createdAt: yup.date().required(),
+          updatedAt: yup.date().required(),
+        })
+      ),
       createdAt: yup.date().required(),
       updatedAt: yup.date().required(),
       isActive: yup.boolean().required(),

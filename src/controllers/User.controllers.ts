@@ -21,4 +21,9 @@ export class UserController {
     const getUsers = await new UserServices().get();
     return res.status(200).json(getUsers);
   }
+
+  async getUserById(req: Request, res: Response) {
+    const user = await new UserServices().getById(req.params.id);
+    return res.status(200).json(user);
+  }
 }

@@ -1,11 +1,12 @@
 import { hash } from "bcrypt";
-import { ConflictError } from "../helpers/Errors.helper";
+import { ConflictError, NotFoundError } from "../helpers/Errors.helper";
 import {
   ICreateUserRequest,
   IUpdateUserRequest,
 } from "../interfaces/user.interfaces";
 import { addressRepository, userRepository } from "../repositories";
 import { UserSchemas } from "../schemas/UserSchemas";
+import { NotBeforeError } from "jsonwebtoken";
 
 export class UserServices {
   async create(dataUser: ICreateUserRequest) {
@@ -97,6 +98,21 @@ export class UserServices {
       relations: { address: true },
     });
     return await UserSchemas.getUsersResponseSchema.validate(users, {
+      stripUnknown: true,
+    });
+  }
+
+  async getById(id: string) {
+    const user = await userRepository.findOne({
+      where: { id: id },
+      relations: { address: true, vehicles: true },
+    });
+
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    return await UserSchemas.getUserIdSchema.validate(user, {
       stripUnknown: true,
     });
   }
