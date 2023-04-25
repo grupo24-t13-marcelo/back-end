@@ -4,6 +4,15 @@ export interface ICreatePhotosRequest {
   photourl: string[];
 }
 
+export interface IcreatePhoto {
+  photourl: string;
+}
+
+export interface IcreatePhotoResponse {
+  id: string;
+  photourl: string;
+}
+
 export interface ICreateVehicleRequest {
   title: string;
   brand: string;

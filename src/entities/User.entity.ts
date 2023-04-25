@@ -50,7 +50,7 @@ class User {
   @CreateDateColumn()
   createdAt: Date;
 
-  @CreateDateColumn()
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @OneToMany(() => Vehicle, (vehicle) => vehicle.user)

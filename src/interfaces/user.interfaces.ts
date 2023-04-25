@@ -1,4 +1,4 @@
-interface IUserAddressRequest {
+export interface IUserAddressRequest {
   zip_code: string;
   state: string;
   city: string;
@@ -7,7 +7,16 @@ interface IUserAddressRequest {
   complement: string;
 }
 
-interface IUserAddressResponse extends IUserAddressRequest {
+export interface IUserAddressUpdateRequest {
+  zip_code?: string;
+  state?: string;
+  city?: string;
+  street?: string;
+  number?: string;
+  complement?: string;
+}
+
+export interface IUserAddressResponse extends IUserAddressRequest {
   updatedAt: Date;
   createdAt: Date;
 }

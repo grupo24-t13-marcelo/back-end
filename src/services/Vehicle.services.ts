@@ -57,6 +57,14 @@ export class VehicleServices {
     return vehicle;
   }
 
+  async getVehicleById(vehicleId: string) {
+    const vehicle = await vehicleRepository.find({
+      where: { id: vehicleId },
+      relations: { comments: true },
+    });
+    return vehicle;
+  }
+
   async delete(vehicleId: string) {
     const vehicle = await vehicleRepository.findOne({
       where: { id: vehicleId },
