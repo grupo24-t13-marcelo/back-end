@@ -60,7 +60,7 @@ export class VehicleServices {
   async getVehicleById(vehicleId: string) {
     const vehicle = await vehicleRepository.find({
       where: { id: vehicleId },
-      relations: { comments: true },
+      relations: { comments: true, photos: true },
     });
     return vehicle;
   }

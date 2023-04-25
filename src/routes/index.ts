@@ -32,6 +32,8 @@ export const routes = Router();
 
 routes.get("/users", authMiddleware.verify, userController.get);
 
+routes.get("/users/:id", authMiddleware.verify, userController.getUserById);
+
 routes.post(
   "/users",
   dataMiddleware.ensureData(UserSchemas.createUserRequestSchema),

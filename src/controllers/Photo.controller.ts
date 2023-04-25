@@ -10,13 +10,17 @@ export class PhotoController {
   async update(req: Request, res: Response) {
     const updatePhoto = await new PhotoService().update(
       req.body,
-      req.params.id
+      req.params.id,
+      req.user.id
     );
     return res.status(200).json(updatePhoto);
   }
 
   async delete(req: Request, res: Response) {
-    const deletePhoto = await new PhotoService().delete(req.params.id);
+    const deletePhoto = await new PhotoService().delete(
+      req.params.id,
+      req.user.id
+    );
     return res.status(204).json(deletePhoto);
   }
 }
