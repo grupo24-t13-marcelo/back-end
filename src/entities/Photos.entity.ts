@@ -15,7 +15,7 @@ class Photo {
   @Column({ nullable: false })
   photourl: string;
 
-  @ManyToOne(() => Vehicle, (vehicle) => vehicle.id)
+  @ManyToOne(() => Vehicle, (vehicle) => vehicle.id, { onDelete: "CASCADE" })
   @JoinColumn()
   vehicle: Vehicle;
 }

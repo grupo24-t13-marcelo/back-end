@@ -24,11 +24,11 @@ class Comment {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @ManyToOne(() => Vehicle, (vehicle) => vehicle.id)
+  @ManyToOne(() => Vehicle, (vehicle) => vehicle.id, { onDelete: "CASCADE" })
   @JoinColumn()
   vehicleid: Vehicle;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, { onDelete: "CASCADE" })
   @JoinColumn()
   ownerid: User;
 }

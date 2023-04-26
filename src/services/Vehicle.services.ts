@@ -53,8 +53,13 @@ export class VehicleServices {
   }
 
   async get() {
-    const vehicle = await vehicleRepository.find();
-    return vehicle;
+    const vehicle = await vehicleRepository.find({
+      relations: { user: true },
+    });
+
+    return VehicleSchemas.getAllVehicleSchemas.validate(vehicle, {
+      stripUnknown: true,
+    });
   }
 
   async getVehicleById(vehicleId: string) {

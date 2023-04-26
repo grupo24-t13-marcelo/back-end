@@ -47,6 +47,11 @@ export interface ICreateVehicleResponse {
   photos: string[];
 }
 
+export interface IGetAllVehicles
+  extends Partial<Omit<ICreateVehicleRequest, "photos">> {
+  user: string;
+}
+
 export interface IUpdateVehicleRequest
   extends Partial<Omit<ICreateVehicleRequest, "photos">> {}
 
