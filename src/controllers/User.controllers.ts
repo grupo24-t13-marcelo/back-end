@@ -31,4 +31,9 @@ export class UserController {
     await new UserServices().updateNewPassword(req.body, req.params.userToken);
     return res.status(200).json({ message: "Password updated success" });
   }
+
+  async getUserById(req: Request, res: Response) {
+    const user = await new UserServices().getById(req.params.id);
+    return res.status(200).json(user);
+  }
 }
