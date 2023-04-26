@@ -21,4 +21,14 @@ export class UserController {
     const getUsers = await new UserServices().get();
     return res.status(200).json(getUsers);
   }
+
+  async sendResetEmailPassword(req: Request, res: Response) {
+    await new UserServices().sendResetEmailPassword(req.body.email);
+    return res.status(200).json({ message: "email send success" });
+  }
+
+  async updateNewPassword(req: Request, res: Response) {
+    await new UserServices().updateNewPassword(req.body, req.params.userToken);
+    return res.status(200).json({ message: "Password updated success" });
+  }
 }

@@ -1,11 +1,16 @@
 import { hash } from "bcrypt";
-import { ConflictError } from "../helpers/Errors.helper";
+import { randomUUID } from "crypto";
+import { ConflictError, NotFoundError } from "../helpers/Errors.helper";
 import {
   ICreateUserRequest,
+  IUpdateNewPasswordRequest,
   IUpdateUserRequest,
 } from "../interfaces/user.interfaces";
 import { addressRepository, userRepository } from "../repositories";
 import { UserSchemas } from "../schemas/UserSchemas";
+import { EmailService } from "../../utils/sendEmail.utils";
+
+const emailService = new EmailService();
 
 export class UserServices {
   async create(dataUser: ICreateUserRequest) {
@@ -97,5 +102,41 @@ export class UserServices {
     return await UserSchemas.getUsersResponseSchema.validate(users, {
       stripUnknown: true,
     });
+  }
+
+  async sendResetEmailPassword(email: string) {
+    const user = await userRepository.findOneBy({ email });
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    const token = randomUUID();
+
+    await userRepository.update({ email: email }, { userToken: token });
+
+    const restPasswordTemplate = emailService.restPasswordTemplate(
+      email,
+      user.name,
+      token
+    );
+
+    await emailService.sendEmail(restPasswordTemplate);
+  }
+
+  async updateNewPassword(
+    dataPassword: IUpdateNewPasswordRequest,
+    userToken: string
+  ) {
+    const user = await userRepository.findOneBy({ userToken });
+
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    const hashPassword = await hash(dataPassword.password, 10);
+    await userRepository.update(
+      { userToken },
+      { password: hashPassword, userToken: null }
+    );
   }
 }
