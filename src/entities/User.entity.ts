@@ -44,6 +44,9 @@ class User {
   @Exclude()
   password: string;
 
+  @Column({ type: "text", nullable: true, unique: true })
+  userToken: string | null;
+
   @Column({ default: true })
   isActive: boolean;
 

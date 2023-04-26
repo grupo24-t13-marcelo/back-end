@@ -49,6 +49,13 @@ routes.patch(
   userController.update
 );
 
+routes.patch("/rest-password", userController.sendResetEmailPassword);
+
+routes.patch(
+  "/rest-password/new-password/:userToken",
+  userController.updateNewPassword
+);
+
 routes.post(
   "/login",
   dataMiddleware.ensureData(LoginSchemas.loginRequestSchema),
