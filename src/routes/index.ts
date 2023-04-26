@@ -70,9 +70,9 @@ routes.post(
   vehicleController.create
 );
 
-routes.get("/vehicles", authMiddleware.verify, vehicleController.get);
+routes.get("/vehicles", vehicleController.get);
 
-routes.get("/vehicles/:id", authMiddleware.verify, vehicleController.getById);
+routes.get("/vehicles/:id", vehicleController.getById);
 
 routes.delete(
   "/vehicles/:id",

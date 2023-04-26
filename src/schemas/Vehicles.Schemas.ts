@@ -4,6 +4,7 @@ import {
   ICreateVehicleResponse,
   IUpdateVehicleRequest,
   IUpdateVehicleResponse,
+  IGetAllVehicles,
 } from "../interfaces/vehicle.inetfaces";
 
 export class VehicleSchemas {
@@ -62,4 +63,30 @@ export class VehicleSchemas {
       bellowFipe: yup.boolean(),
       fipe: yup.string().trim(),
     });
+
+  static getVehicleSchemas: yup.SchemaOf<IGetAllVehicles> = yup.object().shape({
+    id: yup.string().required(),
+    title: yup.string().trim().required(),
+    brand: yup.string().trim().required(),
+    model: yup.string().trim().required(),
+    year: yup.number().required(),
+    fuel: yup.string().trim().required(),
+    mileage: yup.number().required(),
+    price: yup.number().required(),
+    description: yup.string().trim().required(),
+    coverUrl: yup.string().trim().required(),
+    bellowFipe: yup.boolean().required(),
+    fipe: yup.string().trim().required(),
+    isActive: yup.boolean().required(),
+    createdAt: yup.date().required(),
+    updatedAt: yup.date().required(),
+    user: yup
+      .string()
+      .required()
+      .transform((value) => value.name),
+  });
+
+  static getAllVehicleSchemas: yup.SchemaOf<IGetAllVehicles[]> = yup.array(
+    this.getVehicleSchemas
+  );
 }

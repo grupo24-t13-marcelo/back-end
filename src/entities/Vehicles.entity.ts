@@ -66,7 +66,7 @@ class Vehicle {
   @OneToMany(() => Comment, (comment) => comment.vehicleid)
   comments: Comment[];
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, { onDelete: "CASCADE" })
   @JoinColumn()
   user: User;
 }
