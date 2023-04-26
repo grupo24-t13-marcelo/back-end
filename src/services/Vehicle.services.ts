@@ -1,10 +1,10 @@
 import { vehicleRepository } from "../repositories";
 import { userRepository } from "../repositories";
+import { photoRepository } from "../repositories";
+import { VehicleSchemas } from "../schemas/Vehicles.Schemas";
 import {
   ICreateVehicleRequest,
-  ICreateVehicleResponse,
   IUpdateVehicleRequest,
-  IUpdateVehicleResponse,
 } from "../interfaces/vehicle.inetfaces";
 import { NotFoundError } from "../helpers/Errors.helper";
 
@@ -30,11 +30,38 @@ export class VehicleServices {
     });
     const dataReturned = await vehicleRepository.save(newVehicle);
 
-    return dataReturned;
+    const photos = data.photos;
+
+    if (photos.photourl.length > 0) {
+      for (let i = 0; i < photos.photourl.length; i++) {
+        const newPhoto = photoRepository.create({
+          photourl: photos.photourl[i],
+          vehicle: dataReturned,
+        });
+        await photoRepository.save(newPhoto);
+      }
+    }
+
+    const vehicleReturned = { ...dataReturned, photos: [...photos.photourl] };
+
+    return await VehicleSchemas.createVehicleResponseSchema.validate(
+      vehicleReturned,
+      {
+        stripUnknown: true,
+      }
+    );
   }
 
   async get() {
     const vehicle = await vehicleRepository.find();
+    return vehicle;
+  }
+
+  async getVehicleById(vehicleId: string) {
+    const vehicle = await vehicleRepository.find({
+      where: { id: vehicleId },
+      relations: { comments: true, photos: true },
+    });
     return vehicle;
   }
 

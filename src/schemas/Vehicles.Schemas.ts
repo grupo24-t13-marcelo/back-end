@@ -10,6 +10,9 @@ export class VehicleSchemas {
   static createVehicleRequestSchemas: yup.SchemaOf<ICreateVehicleRequest> = yup
     .object()
     .shape({
+      photos: yup.object().shape({
+        photourl: yup.array(),
+      }),
       title: yup.string().trim().required(),
       brand: yup.string().trim().required(),
       model: yup.string().trim().required(),
@@ -21,6 +24,27 @@ export class VehicleSchemas {
       coverUrl: yup.string().trim().required(),
       bellowFipe: yup.boolean().required(),
       fipe: yup.string().trim().required(),
+    });
+
+  static createVehicleResponseSchema: yup.SchemaOf<ICreateVehicleResponse> = yup
+    .object()
+    .shape({
+      photos: yup.array().required(),
+      id: yup.string().required(),
+      title: yup.string().trim().required(),
+      brand: yup.string().trim().required(),
+      model: yup.string().trim().required(),
+      year: yup.number().required(),
+      fuel: yup.string().trim().required(),
+      mileage: yup.number().required(),
+      price: yup.number().required(),
+      description: yup.string().trim().required(),
+      coverUrl: yup.string().trim().required(),
+      bellowFipe: yup.boolean().required(),
+      fipe: yup.string().trim().required(),
+      isActive: yup.boolean().required(),
+      createdAt: yup.date().required(),
+      updatedAt: yup.date().required(),
     });
 
   static updateVehicleRequestSchemas: yup.SchemaOf<IUpdateVehicleRequest> = yup

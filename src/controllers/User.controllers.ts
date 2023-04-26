@@ -22,6 +22,7 @@ export class UserController {
     return res.status(200).json(getUsers);
   }
 
+
   async sendResetEmailPassword(req: Request, res: Response) {
     await new UserServices().sendResetEmailPassword(req.body.email);
     return res.status(200).json({ message: "email send success" });
@@ -30,5 +31,10 @@ export class UserController {
   async updateNewPassword(req: Request, res: Response) {
     await new UserServices().updateNewPassword(req.body, req.params.userToken);
     return res.status(200).json({ message: "Password updated success" });
+
+  async getUserById(req: Request, res: Response) {
+    const user = await new UserServices().getById(req.params.id);
+    return res.status(200).json(user);
+
   }
 }
