@@ -35,7 +35,7 @@ routes.patch(
   userController.update
 );
 
-routes.post("/rest-password", userController.sendResetEmailPassword);
+routes.patch("/rest-password", userController.sendResetEmailPassword);
 
 routes.patch(
   "/rest-password/new-password/:userToken",
