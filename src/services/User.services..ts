@@ -12,8 +12,8 @@ import { addressRepository, userRepository } from "../repositories";
 import { UserSchemas } from "../schemas/UserSchemas";
 
 import { EmailService } from "../../utils/sendEmail.utils";
-
 const emailService = new EmailService();
+import { NotBeforeError } from "jsonwebtoken";
 
 import { NotBeforeError } from "jsonwebtoken";
 
@@ -160,5 +160,20 @@ export class UserServices {
       stripUnknown: true,
     });
 
+  }
+
+  async getById(id: string) {
+    const user = await userRepository.findOne({
+      where: { id: id },
+      relations: { address: true, vehicles: true },
+    });
+
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+
+    return await UserSchemas.getUserIdSchema.validate(user, {
+      stripUnknown: true,
+    });
   }
 }

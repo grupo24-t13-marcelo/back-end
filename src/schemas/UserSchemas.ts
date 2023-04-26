@@ -167,4 +167,6 @@ export class UserSchemas {
   static updateUserResponseSchema: yup.SchemaOf<IUpdateUserResponse> = yup
     .object()
     .concat(this.createUserResponseSchema);
+
+    static getUserIdSchema: yup.SchemaOf<IUpdateUserResponse> = yup.object().concat(this.createUserResponseSchema)
 }
