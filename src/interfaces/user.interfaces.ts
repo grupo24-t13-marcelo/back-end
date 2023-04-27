@@ -85,7 +85,8 @@ export interface IGetUserIdResponse {
 export interface IUpdateUserRequest
   extends Partial<Omit<ICreateUserRequest, "address">> {}
 
-export interface IUpdateUserResponse extends ICreateUserResponse {}
+export interface IUpdateUserResponse
+  extends Partial<Omit<ICreateUserResponse, "address">> {}
 
 export interface IUpdateNewPasswordRequest {
   password: string;
