@@ -40,6 +40,9 @@ class Vehicle {
   price: number;
 
   @Column({ nullable: false })
+  color: string;
+
+  @Column({ nullable: false })
   description: string;
 
   @Column({ nullable: false })

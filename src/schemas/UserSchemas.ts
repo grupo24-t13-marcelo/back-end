@@ -110,6 +110,7 @@ export class UserSchemas {
           model: yup.string().trim().required(),
           year: yup.number().required(),
           fuel: yup.string().trim().required(),
+          color: yup.string().trim().required(),
           mileage: yup.number().required(),
           price: yup.number().required(),
           description: yup.string().trim().required(),
@@ -167,6 +168,4 @@ export class UserSchemas {
   static updateUserResponseSchema: yup.SchemaOf<IUpdateUserResponse> = yup
     .object()
     .concat(this.createUserResponseSchema);
-
-    static getUserIdSchema: yup.SchemaOf<IUpdateUserResponse> = yup.object().concat(this.createUserResponseSchema)
 }

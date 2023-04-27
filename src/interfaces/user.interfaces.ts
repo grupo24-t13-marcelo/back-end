@@ -14,6 +14,7 @@ export interface IVehicleResponse {
   model: string;
   year: number;
   fuel: string;
+  color: string;
   mileage: number;
   price: number;
   description: string;

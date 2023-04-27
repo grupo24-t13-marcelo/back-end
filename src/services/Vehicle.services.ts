@@ -20,6 +20,7 @@ export class VehicleServices {
       model: data.model,
       year: data.year,
       fuel: data.fuel,
+      color: data.color,
       mileage: data.mileage,
       price: data.price,
       description: data.description,
