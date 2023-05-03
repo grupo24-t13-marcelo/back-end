@@ -167,5 +167,17 @@ export class UserSchemas {
 
   static updateUserResponseSchema: yup.SchemaOf<IUpdateUserResponse> = yup
     .object()
-    .concat(this.createUserResponseSchema);
+    .shape({
+      createdAt: yup.date().required(),
+      updatedAt: yup.date().required(),
+      isActive: yup.boolean().required(),
+      isAdvertiser: yup.boolean().required(),
+      description: yup.string().required(),
+      dateBirth: yup.string().required(),
+      number: yup.string().required(),
+      cpf: yup.string().required(),
+      email: yup.string().required(),
+      name: yup.string().required(),
+      id: yup.string().required(),
+    });
 }
