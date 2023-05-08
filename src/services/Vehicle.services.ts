@@ -64,11 +64,17 @@ export class VehicleServices {
   }
 
   async getVehicleById(vehicleId: string) {
-    const vehicle = await vehicleRepository.find({
+    const vehicle = await vehicleRepository.findOne({
       where: { id: vehicleId },
-      relations: { comments: true, photos: true },
+      relations: { comments: true, photos: true, user: true },
     });
-    return vehicle;
+
+    if (!vehicle) {
+      throw new NotFoundError("Vehicle not found");
+    }
+    return VehicleSchemas.getVehicleByIdSchema.validate(vehicle, {
+      stripUnknown: true,
+    });
   }
 
   async delete(vehicleId: string) {
