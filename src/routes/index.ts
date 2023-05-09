@@ -15,6 +15,7 @@ import { PhotoSchemas } from "../schemas/PhotoSchemas";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
 import { VehicleMiddleware } from "../middlewares/Vihecle.middleware";
 import { CommentMiddleware } from "../middlewares/Comment.middleware";
+import { UuidMiddleware } from "../middlewares/Uuid.middleware";
 
 const vehicleMiddleware = new VehicleMiddleware();
 const dataMiddleware = new DataMiddleware();
@@ -27,12 +28,17 @@ const addressController = new AddressController();
 const photoController = new PhotoController();
 const authMiddleware = new AuthMiddleware();
 const commentMiddleware = new CommentMiddleware();
+const uuidMiddleware = new UuidMiddleware();
 
 export const routes = Router();
 
 routes.get("/users", authMiddleware.verify, userController.get);
 
-routes.get("/users/:id", authMiddleware.verify, userController.getUserById);
+routes.get(
+  "/users/:id",
+  uuidMiddleware.ensureValidUuid,
+  userController.getUserById
+);
 
 routes.post(
   "/users",
@@ -72,13 +78,18 @@ routes.post(
 
 routes.get("/vehicles", vehicleController.get);
 
-routes.get("/vehicles/:id", vehicleController.getById);
+routes.get(
+  "/vehicles/:id",
+  uuidMiddleware.ensureValidUuid,
+  vehicleController.getById
+);
 
 routes.delete(
   "/vehicles/:id",
   authMiddleware.verify,
   authMiddleware.isAdvertiser,
   vehicleMiddleware.ensureIsOwner,
+  uuidMiddleware.ensureValidUuid,
   vehicleController.delete
 );
 
@@ -87,6 +98,7 @@ routes.patch(
   authMiddleware.verify,
   authMiddleware.isAdvertiser,
   vehicleMiddleware.ensureIsOwner,
+  uuidMiddleware.ensureValidUuid,
   dataMiddleware.ensureData(VehicleSchemas.updateVehicleRequestSchemas),
   vehicleController.update
 );
@@ -96,15 +108,22 @@ routes.get("/profile", authMiddleware.verify, profileController.get);
 routes.post(
   "/comments/:id",
   authMiddleware.verify,
+  uuidMiddleware.ensureValidUuid,
   dataMiddleware.ensureData(CommentSchemas.createCommentSchemaRequest),
   commentController.create
 );
 
-routes.get("/comments/:id", authMiddleware.verify, commentController.get);
+routes.get(
+  "/comments/:id",
+  authMiddleware.verify,
+  uuidMiddleware.ensureValidUuid,
+  commentController.get
+);
 
 routes.patch(
   "/comments/:id",
   authMiddleware.verify,
+  uuidMiddleware.ensureValidUuid,
   commentMiddleware.ensureIsCommentOwner,
   dataMiddleware.ensureData(CommentSchemas.createCommentSchemaRequest),
   commentController.update
@@ -113,6 +132,7 @@ routes.patch(
 routes.delete(
   "/comments/:id",
   authMiddleware.verify,
+  uuidMiddleware.ensureValidUuid,
   commentMiddleware.ensureIsCommentOwner,
   commentController.delete
 );
@@ -121,6 +141,7 @@ routes.post(
   "/photos/:id",
   authMiddleware.verify,
   authMiddleware.isAdvertiser,
+  uuidMiddleware.ensureValidUuid,
   dataMiddleware.ensureData(PhotoSchemas.createPhotoSchemaRequest),
   photoController.create
 );
@@ -129,6 +150,7 @@ routes.patch(
   "/photos/:id",
   authMiddleware.verify,
   authMiddleware.isAdvertiser,
+  uuidMiddleware.ensureValidUuid,
   dataMiddleware.ensureData(PhotoSchemas.createPhotoSchemaRequest),
   photoController.update
 );
@@ -137,6 +159,7 @@ routes.delete(
   "/photos/:id",
   authMiddleware.verify,
   authMiddleware.isAdvertiser,
+  uuidMiddleware.ensureValidUuid,
   photoController.delete
 );
 
