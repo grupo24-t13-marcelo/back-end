@@ -18,19 +18,19 @@ class Vehicle {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({ length: 46, nullable: false })
+  @Column({ length: 100, nullable: false })
   title: string;
 
-  @Column({ length: 26, nullable: false })
+  @Column({ length: 100, nullable: false })
   brand: string;
 
-  @Column({ length: 26, nullable: false })
+  @Column({ length: 100, nullable: false })
   model: string;
 
   @Column({ nullable: false })
   year: number;
 
-  @Column({ length: 16, nullable: false })
+  @Column({ length: 100, nullable: false })
   fuel: string;
 
   @Column({ nullable: false })
