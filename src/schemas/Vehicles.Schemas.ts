@@ -8,6 +8,8 @@ import {
   IgetVehicleById,
 } from "../interfaces/vehicle.inetfaces";
 
+import { ICommentUser, IUserCommente } from "../interfaces/Comment.interfaces";
+
 export class VehicleSchemas {
   static createVehicleRequestSchemas: yup.SchemaOf<ICreateVehicleRequest> = yup
     .object()
@@ -95,39 +97,52 @@ export class VehicleSchemas {
     this.getVehicleSchemas
   );
 
-  static getVehicleByIdSchema: yup.SchemaOf<IgetVehicleById> = yup
-    .object()
-    .shape({
-      id: yup.string().required(),
-      title: yup.string().trim().required(),
-      brand: yup.string().trim().required(),
-      model: yup.string().trim().required(),
-      year: yup.number().required(),
-      fuel: yup.string().trim().required(),
-      color: yup.string().trim().required(),
-      mileage: yup.number().required(),
-      price: yup.number().required(),
-      description: yup.string().trim().required(),
-      coverUrl: yup.string().trim().required(),
-      bellowFipe: yup.boolean().required(),
-      fipe: yup.string().trim().required(),
-      isActive: yup.boolean().required(),
+  static getVehicleByIdSchema: yup.SchemaOf<any> = yup.object().shape({
+    id: yup.string().required(),
+    title: yup.string().trim().required(),
+    brand: yup.string().trim().required(),
+    model: yup.string().trim().required(),
+    year: yup.number().required(),
+    fuel: yup.string().trim().required(),
+    color: yup.string().trim().required(),
+    mileage: yup.number().required(),
+    price: yup.number().required(),
+    description: yup.string().trim().required(),
+    coverUrl: yup.string().trim().required(),
+    bellowFipe: yup.boolean().required(),
+    fipe: yup.string().trim().required(),
+    isActive: yup.boolean().required(),
+    createdAt: yup.date().required(),
+    updatedAt: yup.date().required(),
+    photos: yup.array(),
+    comments: yup.array().transform((value) =>
+      value.map((elem: ICommentUser) => {
+        delete elem.ownerid.password;
+        delete elem.ownerid.email;
+        delete elem.ownerid.cpf;
+        delete elem.ownerid.number;
+        delete elem.ownerid.dateBirth;
+        delete elem.ownerid.isAdvertiser;
+        delete elem.ownerid.userToken;
+        delete elem.ownerid.isActive;
+        delete elem.ownerid.createdAt;
+        delete elem.ownerid.updatedAt;
+        delete elem.ownerid.description;
+        return elem;
+      })
+    ),
+    user: yup.object().shape({
       createdAt: yup.date().required(),
       updatedAt: yup.date().required(),
-      photos: yup.array(),
-      comments: yup.array(),
-      user: yup.object().shape({
-        createdAt: yup.date().required(),
-        updatedAt: yup.date().required(),
-        isActive: yup.boolean().required(),
-        isAdvertiser: yup.boolean().required(),
-        description: yup.string().required(),
-        dateBirth: yup.string().required(),
-        number: yup.string().required(),
-        cpf: yup.string().required(),
-        email: yup.string().required(),
-        name: yup.string().required(),
-        id: yup.string().required(),
-      }),
-    });
+      isActive: yup.boolean().required(),
+      isAdvertiser: yup.boolean().required(),
+      description: yup.string().required(),
+      dateBirth: yup.string().required(),
+      number: yup.string().required(),
+      cpf: yup.string().required(),
+      email: yup.string().required(),
+      name: yup.string().required(),
+      id: yup.string().required(),
+    }),
+  });
 }

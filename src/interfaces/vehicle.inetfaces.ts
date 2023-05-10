@@ -1,5 +1,9 @@
 import { ICreateUserResponse } from "./user.interfaces";
-import { ICreateCommentResponse } from "./Comment.interfaces";
+import {
+  ICreateCommentResponse,
+  IReturnComment,
+  ICommentUser,
+} from "./Comment.interfaces";
 
 export interface ICreatePhotosRequest {
   photourl: string[];
@@ -92,6 +96,6 @@ export interface IgetVehicleById {
   updatedAt: Date;
   createdAt: Date;
   photos: IcreatePhotoResponse[];
-  comments: ICreateCommentResponse[];
+  comments: ICommentUser[];
   user: ICreateUserResponse2;
 }
