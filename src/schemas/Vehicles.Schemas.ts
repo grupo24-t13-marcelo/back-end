@@ -61,7 +61,7 @@ export class VehicleSchemas {
       model: yup.string().trim(),
       year: yup.number(),
       fuel: yup.string().trim(),
-      color: yup.string().trim().required(),
+      color: yup.string().trim(),
       mileage: yup.number(),
       price: yup.number(),
       description: yup.string().trim(),
