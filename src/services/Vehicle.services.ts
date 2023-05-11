@@ -58,7 +58,9 @@ export class VehicleServices {
       relations: { user: true },
     });
 
-    return VehicleSchemas.getAllVehicleSchemas.validate(vehicle, {
+    const returnedCars = vehicle.filter((elem) => (elem.isActive = true));
+
+    return VehicleSchemas.getAllVehicleSchemas.validate(returnedCars, {
       stripUnknown: true,
     });
   }
