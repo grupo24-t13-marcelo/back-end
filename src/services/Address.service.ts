@@ -11,7 +11,7 @@ export class AddressService {
     });
 
     if (!user) {
-      throw new NotFoundError("Comment not found");
+      throw new NotFoundError("User not found");
     }
 
     const addressid = user.address.id;
